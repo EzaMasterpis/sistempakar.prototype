@@ -154,13 +154,13 @@
                 historyData = [];
             }
 
-            // DISINI SUMBER ERROR SEBELUMNYA
+
             const listContainer = document.getElementById('history-container');
             
-            // Kita cek dulu apakah listContainer ada
+
             if (!listContainer) {
                 console.error("Elemen 'history-container' tidak ditemukan di HTML!");
-                return; // Stop fungsi agar tidak error
+                return;
             }
 
             if (historyData.length === 0) {
