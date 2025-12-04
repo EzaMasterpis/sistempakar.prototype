@@ -1,0 +1,347 @@
+/* --- 1. VARIABEL & RESET --- */
+:root {
+    --primary-blue: #4A90E2;
+    --dark-blue: #2C3E50;
+    --bg-soft: #F0F4F8;
+    --white: #FFFFFF;
+    --shadow: 0 10px 30px rgba(74, 144, 226, 0.15);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-soft);
+    color: #555;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- 2. HEADER (NAVIGASI) --- */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--dark-blue);
+    font-weight: 600;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.nav-menu a:hover {
+    color: var(--primary-blue);
+}
+
+/* --- 3. LANDING PAGE (HERO) --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #ffffff 0%, #EBF5FF 100%);
+    padding: 20px;
+    padding-top: 80px;
+}
+
+h1 {
+    font-size: 3rem;
+    color: var(--dark-blue);
+    margin-bottom: 20px;
+}
+
+p.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+
+.btn-cta {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 15px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+    transition: var(--transition);
+}
+
+.btn-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.6);
+    color: black;
+}
+
+/* --- 4. HALAMAN DIAGNOSA --- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Card Style (Kotak Putih) */
+.card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    animation: slideUp 0.6s ease-out;
+}
+
+h2 {
+    color: var(--dark-blue);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: var(--dark-blue);
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Grid Checkbox */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.checkbox-group:hover {
+    border-color: var(--primary-blue);
+    background-color: #f9fcff;
+}
+
+.checkbox-group input {
+    margin-right: 15px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-blue);
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Tombol Proses */
+.btn-diagnose {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-diagnose:hover {
+    background-color: #357ABD;
+    color: black;
+}
+
+/* --- 5. HASIL & RIWAYAT --- */
+#result-section {
+    display: none;
+    background: var(--dark-blue);
+    color: white;
+    text-align: center;
+}
+
+.result-highlight {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #64B5F6;
+    margin-top: 10px;
+}
+
+/* List Riwayat */
+.history-list {
+    list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.history-item {
+    background: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 5px solid var(--primary-blue);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-date {
+    font-size: 0.8rem;
+    color: #888;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.btn-clear {
+    background: #ff7675;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    float: right;
+}
+
+.btn-clear:hover {
+    color: black;
+}
+
+/* --- 7. MODAL / POPUP CUSTOM --- */
+.modal-overlay {
+    display: none; /* Tersembunyi secara default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Latar belakang gelap transparan */
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-box {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-box {
+    transform: scale(1); /* Efek membesar saat muncul */
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+}
+
+.modal-desc {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-cancel, .btn-confirm {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+}
+
+.btn-cancel {
+    background: #e0e0e0;
+    color: #555;
+}
+
+.btn-cancel:hover {
+    background: #d4d4d4;
+}
+
+.btn-confirm {
+    background: #ff7675;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #d63031;
+}
+
+/* --- 6. ANIMASI & RESPONSIVE --- */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+}
