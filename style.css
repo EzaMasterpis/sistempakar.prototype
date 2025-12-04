@@ -137,6 +137,14 @@ h3 {
     padding-bottom: 10px;
 }
 
+.h3-card {
+    color: var(--white);
+    font-size: 2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
 /* Grid Checkbox */
 .options-grid {
     display: grid;
@@ -242,31 +250,36 @@ h3 {
     cursor: pointer;
     font-size: 0.8rem;
     float: right;
+    transition: var(--transition);
 }
 
 .btn-clear:hover {
+    background: #d63031;
     color: black;
 }
 
 /* --- 7. MODAL / POPUP CUSTOM --- */
 .modal-overlay {
-    display: none; /* Tersembunyi secara default */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Latar belakang gelap transparan */
+    background: rgba(0, 0, 0, 0.5);
     z-index: 2000;
+    display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s ease;
 }
 
 .modal-overlay.active {
-    display: flex;
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .modal-box {
@@ -277,39 +290,39 @@ h3 {
     max-width: 400px;
     text-align: center;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    transform: scale(0.8);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(100px); 
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .modal-overlay.active .modal-box {
-    transform: scale(1); /* Efek membesar saat muncul */
+    transform: translateY(0);
 }
 
 .modal-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--dark-blue);
+    font-size: 1.2rem; 
+    font-weight: 700; 
+    color: var(--dark-blue); 
     margin-bottom: 10px;
 }
 
-.modal-desc {
-    font-size: 0.95rem;
-    color: #666;
-    margin-bottom: 25px;
+.modal-desc { 
+    font-size: 0.95rem; 
+    color: #666; 
+    margin-bottom: 25px; 
 }
 
-.modal-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
+.modal-buttons { 
+    display: flex; 
+    gap: 15px; 
+    justify-content: center; 
 }
 
-.btn-cancel, .btn-confirm {
+.btn-cancel, .btn-cancel-empty, .btn-confirm { 
     padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
+    border-radius: 8px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    border: none; 
     transition: var(--transition);
 }
 
@@ -318,17 +331,27 @@ h3 {
     color: #555;
 }
 
-.btn-cancel:hover {
+.btn-cancel:hover { 
     background: #d4d4d4;
+    color: black;
 }
 
-.btn-confirm {
-    background: #ff7675;
+.btn-cancel-empty {
+    background: #64B5F6;
     color: white;
+}
+
+.btn-cancel-empty:hover {
+    background: #357ABD;
+    color: black;
+}
+
+.btn-confirm { background: #ff7675; color: white; 
 }
 
 .btn-confirm:hover {
     background: #d63031;
+    color: black;
 }
 
 /* --- 6. ANIMASI & RESPONSIVE --- */

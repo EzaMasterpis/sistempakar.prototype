@@ -13,6 +13,7 @@
         <a href="index.html" class="brand">Awikwok</a>
         <nav class="nav-menu">
             <a href="index.html">Home</a>
+            <a href="#diagnosa-box">Diagnosa</a>
             <a href="#riwayat">Riwayat</a>
         </nav>
     </header>
@@ -29,15 +30,14 @@
             <button class="btn-diagnose" onclick="runDiagnosis()">ANALISA SEKARANG</button>
         </div>
 
-        <div id="result-section" class="card">
-            <h3>Hasil Analisis</h3>
+        <div id="result-section" class="card" style="display: none;">
+            <h3 class = "h3-card">Hasil Analisis</h3>
             <p>Berdasarkan gejala yang dipilih, diagnosa sistem adalah:</p>
             <div class="result-highlight" id="result-text">...</div>
         </div>
 
         <div class="card" id="riwayat">
-            <h3>Riwayat Diagnosa <button class="btn-clear" onclick="openModal()">Hapus Semua</button></h3>
-            
+            <h3>Riwayat Diagnosa <button class="btn-clear" onclick="checkHistoryBeforeDelete()">Hapus Semua</button></h3>
             <ul class="history-list" id="history-container">
                 <li style="text-align: center; color: #aaa;">Memuat riwayat...</li>
             </ul>
@@ -50,14 +50,24 @@
             <div class="modal-title">Hapus Riwayat?</div>
             <p class="modal-desc">Semua data diagnosa yang tersimpan akan hilang permanen.</p>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal()">Batal</button>
+                <button class="btn-cancel" onclick="closeModal('deleteModal')">Batal</button>
                 <button class="btn-confirm" onclick="confirmClearHistory()">Ya, Hapus</button>
             </div>
         </div>
     </div>
 
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-box">
+            <div class="modal-title" id="infoTitle">Info</div>
+            <p class="modal-desc" id="infoDesc">Pesan informasi.</p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('infoModal')" style="width: 100%; background: var(--primary-blue); color: white;">Oke, Mengerti</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- 1. DATA MASALAH HP ---
+        // --- DATA & ATURAN ---
         const hpProblems = [
             { id: 'H01', text: 'Baterai sangat cepat habis (boros)' },
             { id: 'H02', text: 'HP terasa sangat panas saat dipakai' },
@@ -66,10 +76,9 @@
             { id: 'H05', text: 'Pengisian daya (charge) sangat lambat' }
         ];
 
-        // --- 2. ATURAN (KNOWLEDGE BASE) ---
         const rules = [
             { cond: ['H01'], res: 'Kesehatan Baterai (Battery Health) sudah menurun. Perlu ganti baterai.' },
-            { cond: ['H02'], res: 'Masalah Pendiginginan, Gunakan cooler atau berhenti bermain' },
+            { cond: ['H02'], res: 'Masalah Pendinginan, Gunakan cooler atau berhenti bermain' },
             { cond: ['H03'], res: 'Masalah pada Touchscreen digitizer. Perlu ganti LCD.' },
             { cond: ['H04'], res: 'Bug Sistem Operasi atau Memori Internal Penuh.' },
             { cond: ['H05'], res: 'Kepala Charger atau Kabel rusak, Beli baru' },
@@ -79,7 +88,6 @@
             { cond: ['H01', 'H05'], res: 'Port Charger kotor/rusak atau Kepala Charger tidak kompatibel.' },
         ];
 
-        // --- 3. RENDER CHECKBOX (SAAT LOAD) ---
         const container = document.getElementById('checkbox-container');
         if (container) {
             container.innerHTML = ''; 
@@ -92,13 +100,13 @@
             });
         }
 
-        // --- 4. LOGIKA DIAGNOSA ---
+        // --- FUNGSI UTAMA: DIAGNOSA ---
         function runDiagnosis() {
             const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
             const symptoms = Array.from(checkedBoxes).map(cb => cb.value);
 
             if (symptoms.length === 0) {
-                alert("Pilih minimal satu gejala!");
+                showInfoPopup("Belum Memilih Gejala", "Silakan centang setidaknya satu gejala yang dialami HP Anda sebelum memulai diagnosa.");
                 return;
             }
 
@@ -113,7 +121,6 @@
                 }
             });
 
-            // Tampilkan Hasil
             const resBox = document.getElementById('result-section');
             const resText = document.getElementById('result-text');
             if (resText && resBox) {
@@ -122,46 +129,21 @@
                 resBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
 
-            // SIMPAN KE HISTORY
             saveToHistory(diagnosisResult);
         }
 
-        // --- 5. LOGIKA RIWAYAT ---
+        // --- LOCAL STORAGE (HISTORY) ---
         function saveToHistory(result) {
-            let historyData;
-            try {
-                historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
-            } catch (e) {
-                historyData = [];
-            }
-
-            const newEntry = {
-                date: new Date().toLocaleString('id-ID'),
-                result: result
-            };
-
-            historyData.unshift(newEntry);
+            let historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
+            historyData.unshift({ date: new Date().toLocaleString('id-ID'), result: result });
             localStorage.setItem('hp_history', JSON.stringify(historyData));
-            
             loadHistory();
         }
 
         function loadHistory() {
-            let historyData = [];
-            try {
-                historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
-            } catch (e) {
-                historyData = [];
-            }
-
-
+            let historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
             const listContainer = document.getElementById('history-container');
-            
-
-            if (!listContainer) {
-                console.error("Elemen 'history-container' tidak ditemukan di HTML!");
-                return;
-            }
+            if (!listContainer) return;
 
             if (historyData.length === 0) {
                 listContainer.innerHTML = '<li style="text-align: center; color: #aaa; padding: 10px;">Belum ada riwayat.</li>';
@@ -172,47 +154,42 @@
             historyData.forEach(item => {
                 const li = document.createElement('li');
                 li.className = 'history-item';
-                li.innerHTML = `
-                    <div>
-                        <span class="history-date">${item.date}</span>
-                        <strong>${item.result}</strong>
-                    </div>
-                `;
+                li.innerHTML = `<div><span class="history-date">${item.date}</span><strong>${item.result}</strong></div>`;
                 listContainer.appendChild(li);
             });
         }
 
-        // --- 6. LOGIKA POPUP MODAL ---
-        function openModal() {
-            const historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
-            if (historyData.length === 0) {
-                alert("Riwayat sudah kosong!");
-                return;
-            }
-            const modal = document.getElementById('deleteModal');
-            if(modal) modal.classList.add('active');
+        function showInfoPopup(title, message) {
+            document.getElementById('infoTitle').innerText = title;
+            document.getElementById('infoDesc').innerText = message;
+            document.getElementById('infoModal').classList.add('active');
         }
 
-        function closeModal() {
-            const modal = document.getElementById('deleteModal');
-            if(modal) modal.classList.remove('active');
+        function checkHistoryBeforeDelete() {
+            const historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
+            if (historyData.length === 0) {
+                showInfoPopup("Riwayat Kosong", "Tidak ada data yang perlu dihapus saat ini.");
+            } else {
+                document.getElementById('deleteModal').classList.add('active');
+            }
         }
 
         function confirmClearHistory() {
             localStorage.removeItem('hp_history');
             loadHistory();
-            closeModal();
+            closeModal('deleteModal');
         }
 
-        // Tutup modal jika klik luar
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
         window.onclick = function(event) {
-            const modal = document.getElementById('deleteModal');
-            if (event.target == modal) {
-                closeModal();
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('active');
             }
         }
 
-        // --- 7. JALANKAN SAAT LOAD ---
         loadHistory();
 
     </script>
