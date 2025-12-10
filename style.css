@@ -1,4 +1,4 @@
-/* --- 1. VARIABEL & RESET --- */
+/* --- VARIABEL & RESET --- */
 :root {
     --primary-blue: #4A90E2;
     --dark-blue: #2C3E50;
@@ -26,7 +26,7 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 2. HEADER (NAVIGASI) --- */
+/* --- HEADER (NAVIGASI) --- */
 header {
     position: fixed;
     top: 0;
@@ -69,7 +69,7 @@ header {
     color: var(--primary-blue);
 }
 
-/* --- 3. LANDING PAGE (HERO) --- */
+/* --- LANDING PAGE (HERO) --- */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -112,7 +112,7 @@ p.subtitle {
     color: black;
 }
 
-/* --- 4. HALAMAN DIAGNOSA --- */
+/* --- HALAMAN DIAGNOSA --- */
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -123,7 +123,7 @@ p.subtitle {
     gap: 30px;
 }
 
-/* Card Style (Kotak Putih) */
+/* --- Card Style (Kotak Putih) --- */
 .card {
     background: var(--white);
     padding: 40px;
@@ -154,7 +154,7 @@ h3 {
     padding-bottom: 10px;
 }
 
-/* Grid Checkbox */
+/* --- Grid Checkbox --- */
 .options-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -210,7 +210,7 @@ h3 {
     color: black;
 }
 
-/* --- 5. HASIL & RIWAYAT --- */
+/* --- HASIL & RIWAYAT --- */
 #result-section {
     display: none;
     background: var(--dark-blue);
@@ -287,7 +287,7 @@ h3 {
     transform: translateY(-2px)
 }
 
-/* --- 7. MODAL / POPUP CUSTOM --- */
+/* --- MODAL / POPUP CUSTOM --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -382,7 +382,9 @@ h3 {
     background: #d63031;
     color: black;
 }
-  
+
+
+/* --- FOOTER --- */
 .main-footer {
     background-color: white;
     color: #222222;
@@ -426,7 +428,7 @@ h3 {
     border-top: 1px solid #222222;
 }
 
-/* --- 6. ANIMASI & RESPONSIVE --- */
+/* --- ANIMASI & RESPONSIVE --- */
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
