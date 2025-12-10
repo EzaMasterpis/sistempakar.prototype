@@ -217,6 +217,24 @@ h3 {
 }
 
 /* List Riwayat */
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.history-header h3 {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-size: 1.2rem;
+}
+
 .history-list {
     list-style: none;
     max-height: 300px;
@@ -250,12 +268,15 @@ h3 {
     cursor: pointer;
     font-size: 0.8rem;
     float: right;
+    font-weight: 600;
     transition: var(--transition);
+    white-space: nowrap;
 }
 
 .btn-clear:hover {
     background: #d63031;
     color: black;
+    transform: translateY(-2px)
 }
 
 /* --- 7. MODAL / POPUP CUSTOM --- */
