@@ -353,22 +353,7 @@ h3 {
     background: #d63031;
     color: black;
 }
-
-/* --- 6. ANIMASI & RESPONSIVE --- */
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 600px) {
-    .options-grid {
-        grid-template-columns: 1fr;
-    }
-    h1 {
-        font-size: 2rem;
-    }
-}
-    
+  
 .main-footer {
     background-color: #c7c7c7;
     color: #222222;
@@ -410,4 +395,19 @@ h3 {
     padding: 15px 20px;
     margin-top: 30px;
     border-top: 1px solid #222222;
+}
+
+/* --- 6. ANIMASI & RESPONSIVE --- */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+    h1 {
+        font-size: 2rem;
+    }
 }
