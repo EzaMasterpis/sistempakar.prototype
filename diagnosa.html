@@ -22,31 +22,39 @@
         
         <div class="card" id="diagnosa-box">
             <h2>Diagnosa Masalah HP</h2>
-            <p style="text-align: center; color: #888; margin-bottom: 25px; font-size: 0.9rem;">Centang gejala yang dialami (Maksimal 5 pilihan)</p>
+            <p style="text-align: center; color: #888; margin-bottom: 25px; font-size: 0.9rem;">
+                Centang gejala yang dialami (Maksimal 3 pilihan)
+            </p>
             
             <div class="options-grid" id="checkbox-container">
                 </div>
-
+            
             <button class="btn-diagnose" onclick="runDiagnosis()">ANALISA SEKARANG</button>
         </div>
 
-        <div id="result-section" class="card" style="display: none;">
-            <h3 class = "h3-result">Hasil Analisis</h3>
+        <div class="card" id="result-section" style="display: none; text-align: center;">
+            <h3>Hasil Analisis</h3>
             <p>Berdasarkan gejala yang dipilih, diagnosa sistem adalah:</p>
-            <div class="result-highlight" id="result-text">...</div>
+            <div class="result-highlight" id="result-text" style="font-size: 1.3rem; font-weight: bold; color: #4A90E2; margin-top: 10px;">
+                </div>
         </div>
 
         <div class="card" id="riwayat">
-            <div class="history-header">
-                <h3>Riwayat Diagnosa</h3>
-                <button class="btn-clear" onclick="checkHistoryBeforeDelete()">Hapus Semua</button>
-            </div>
-
+            <h3>Riwayat Diagnosa <button class="btn-clear" onclick="tryOpenDeleteModal()">Hapus Semua</button></h3>
             <ul class="history-list" id="history-container">
                 <li style="text-align: center; color: #aaa;">Memuat riwayat...</li>
             </ul>
         </div>
+    </div>
 
+    <div class="modal-overlay" id="limitModal">
+        <div class="modal-box">
+            <div class="modal-title">Batas Tercapai</div>
+            <p class="modal-desc">Untuk akurasi diagnosa, pilih maksimal 3 gejala.</p>
+            <div class="modal-buttons">
+                <button class="btn-confirm" style="background-color: #4A90E2;" onclick="closeModal('limitModal')">Oke!</button>
+            </div>
+        </div>
     </div>
 
     <div class="modal-overlay" id="deleteModal">
@@ -65,20 +73,22 @@
             <div class="modal-title" id="infoTitle">Info</div>
             <p class="modal-desc" id="infoDesc">Pesan informasi.</p>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal('infoModal')" style="width: 100%; background: var(--primary-blue); color: white;">Oke, Mengerti</button>
+                <button class="btn-confirm" style="width: 100%; background-color: #4A90E2;" onclick="closeModal('infoModal')">Oke, Mengerti</button>
             </div>
         </div>
     </div>
 
-    <br><br><br>
+    <br>
+    <br>
+    <br>
 
-    <footer class="main-footer">
+    <footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 0.9rem;">
         <div class="footer-content">
             <div class="footer-section about">
                 <h4>Tentang Awikwok</h4>
                 <p>Sistem Pakar untuk mendiagnosis kerusakan umum pada perangkat HP dan memberikan saran solusi yang relevan.</p>
             </div>
-
+            <br>
             <div class="footer-section contact">
                 <h4>Kelompok Pembuat :</h4>
                 <p>1. Arul Jeconiah Jaya Pratama (2305101002)</p>
@@ -86,9 +96,9 @@
                 <p>3. Bagas Hendry Sutikno (2305101005)</p>
             </div>
         </div>
-
+        <br>
         <div class="footer-bottom">
-            &copy; <span id="current-year"></span> Awikwok | Solusi Diagnosa HP.
+            &copy; 2024 Awikwok | Solusi Diagnosa HP.
         </div>
     </footer>
 
@@ -112,17 +122,35 @@
             { cond: ['H02', 'H03'], res: 'Kerusakan pada Hardware Layar (LCD) akibat panas berlebih.' },
             { cond: ['H02', 'H04'], res: 'RAM Penuh atau Processor Overheat. Coba hapus aplikasi berat.' },
             { cond: ['H01', 'H05'], res: 'Port Charger kotor/rusak atau Kepala Charger tidak kompatibel.' },
+            { cond: ['H03', 'H05'], res: 'Adapter Charger tidak stabil/bocor arus menyebabkan gangguan digitizer. Ganti Charger Original.' },
+            { cond: ['H01', 'H03'], res: 'Baterai Kembung (Swollen) menekan layar LCD. Segera ganti baterai untuk menyelamatkan layar.' },
+            { cond: ['H02', 'H05'], res: 'Sistem membatasi pengisian karena suhu panas (Thermal Throttling). Jangan gunakan HP saat di-charge.' },
+            { cond: ['H01', 'H04'], res: 'Malware atau Aplikasi "Background Process" yang error. Lakukan Factory Reset.' },
+            { cond: ['H01', 'H02', 'H05'], res: 'Kerusakan Hardware pada IC Charging atau Jalur Power. Perlu servis mesin.' }
         ];
 
+        // --- RENDER CHECKBOX & LOGIKA BATAS ---
         const container = document.getElementById('checkbox-container');
         if (container) {
-            container.innerHTML = ''; 
+            container.innerHTML = '';
             hpProblems.forEach(p => {
                 container.innerHTML += `
                     <div class="checkbox-group">
-                        <input type="checkbox" id="${p.id}" value="${p.id}">
+                        <input type="checkbox" id="${p.id}" value="${p.id}" class="problem-checkbox">
                         <label for="${p.id}">${p.text}</label>
                     </div>`;
+            });
+
+            const allCheckboxes = container.querySelectorAll('input[type="checkbox"]');
+            allCheckboxes.forEach(box => {
+                box.addEventListener('change', function() {
+                    const checkedCount = container.querySelectorAll('input[type="checkbox"]:checked').length;
+                    
+                    if (checkedCount > 3) {
+                        this.checked = false;
+                        openModal('limitModal');
+                    }
+                });
             });
         }
 
@@ -131,8 +159,9 @@
             const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
             const symptoms = Array.from(checkedBoxes).map(cb => cb.value);
 
+
             if (symptoms.length === 0) {
-                showInfoPopup("Belum Memilih Gejala", "Silakan centang setidaknya satu gejala yang dialami HP Anda sebelum memulai diagnosa.");
+                showInfoPopup("Peringatan", "Pilih minimal satu gejala untuk melakukan diagnosa.");
                 return;
             }
 
@@ -149,16 +178,17 @@
 
             const resBox = document.getElementById('result-section');
             const resText = document.getElementById('result-text');
+            
             if (resText && resBox) {
                 resText.innerText = diagnosisResult;
                 resBox.style.display = 'block';
                 resBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-
+            
             saveToHistory(diagnosisResult);
         }
 
-        // --- LOCAL STORAGE (HISTORY) ---
+        // --- MANAJEMEN RIWAYAT ---
         function saveToHistory(result) {
             let historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
             historyData.unshift({ date: new Date().toLocaleString('id-ID'), result: result });
@@ -185,18 +215,26 @@
             });
         }
 
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
         function showInfoPopup(title, message) {
             document.getElementById('infoTitle').innerText = title;
             document.getElementById('infoDesc').innerText = message;
-            document.getElementById('infoModal').classList.add('active');
+            openModal('infoModal');
         }
 
-        function checkHistoryBeforeDelete() {
+        function tryOpenDeleteModal() {
             const historyData = JSON.parse(localStorage.getItem('hp_history')) || [];
             if (historyData.length === 0) {
-                showInfoPopup("Riwayat Kosong", "Tidak ada data yang perlu dihapus saat ini.");
+                showInfoPopup("Riwayat Kosong", "Tidak ada data riwayat yang bisa dihapus saat ini.");
             } else {
-                document.getElementById('deleteModal').classList.add('active');
+                openModal('deleteModal');
             }
         }
 
@@ -204,10 +242,6 @@
             localStorage.removeItem('hp_history');
             loadHistory();
             closeModal('deleteModal');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
         }
 
         window.onclick = function(event) {
