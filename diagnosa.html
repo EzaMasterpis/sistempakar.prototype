@@ -109,7 +109,12 @@
             { id: 'H02', text: 'HP terasa sangat panas saat dipakai' },
             { id: 'H03', text: 'Layar sentuh bergerak sendiri (Ghost Touch)' },
             { id: 'H04', text: 'Aplikasi sering keluar sendiri (Force Close)' },
-            { id: 'H05', text: 'Pengisian daya (charge) sangat lambat' }
+            { id: 'H05', text: 'Pengisian daya (charge) sangat lambat' },
+            { id: 'H06', text: 'Sinyal hilang atau tidak ada layanan (No Signal)' },
+            { id: 'H07', text: 'Kamera tidak bisa dibuka atau blank hitam' },
+            { id: 'H08', text: 'Suara speaker pecah atau tidak keluar suara' },
+            { id: 'H09', text: 'HP sering restart sendiri (Bootloop)' },
+            { id: 'H10', text: 'Tombol Power atau Volume sulit ditekan' }
         ];
 
         const rules = [
@@ -126,7 +131,14 @@
             { cond: ['H01', 'H03'], res: 'Baterai Kembung (Swollen) menekan layar LCD. Segera ganti baterai untuk menyelamatkan layar.' },
             { cond: ['H02', 'H05'], res: 'Sistem membatasi pengisian karena suhu panas (Thermal Throttling). Jangan gunakan HP saat di-charge.' },
             { cond: ['H01', 'H04'], res: 'Malware atau Aplikasi "Background Process" yang error. Lakukan Factory Reset.' },
-            { cond: ['H01', 'H02', 'H05'], res: 'Kerusakan Hardware pada IC Charging atau Jalur Power. Perlu servis mesin.' }
+            { cond: ['H01', 'H02', 'H05'], res: 'Kerusakan Hardware pada IC Charging atau Jalur Power. Perlu servis mesin.' },
+            { cond: ['H06'], res: 'Masalah pada IC Sinyal (PA) atau Slot Kartu SIM kotor/rusak.' },
+            { cond: ['H07'], res: 'Modul Kamera rusak atau konektor lepas. Perlu penggantian modul kamera.' },
+            { cond: ['H08'], res: 'Speaker kemasukan air/debu atau membran speaker robek.' },
+            { cond: ['H09'], res: 'Kerusakan file sistem (OS Corrupt) atau IC eMMC mulai lemah.' },
+            { cond: ['H10'], res: 'Fleksibel tombol bagian dalam putus atau switch tombol sudah aus.' },
+            { cond: ['H02', 'H09'], res: 'CPU Overheat menyebabkan sistem tidak stabil hingga restart. Perlu Reball CPU.' },
+            { cond: ['H02', 'H06'], res: 'IC Power panas berlebih memutus arus ke IC Sinyal.' }
         ];
 
         // --- RENDER CHECKBOX & LOGIKA BATAS ---
